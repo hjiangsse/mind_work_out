@@ -1,0 +1,95 @@
+package main
+
+import (
+	"bytes"
+	"flag"
+	"fmt"
+	"log"
+	"os/exec"
+	"strings"
+
+	"github.com/manifoldco/promptui"
+)
+
+var hostinfos = map[string][]string{
+	"129": []string{"jingle", "192.168.2.129", "Life123", "~"},
+	"200": []string{"jingle", "192.168.2.200", "Life123", "~"},
+}
+
+/*
+ * return user input
+ */
+func GetUserInput() (string, string, string) {
+	directionPtr := flag.String("direction", "download", "files transfer direction, download or upload")
+	hostPtr := flag.String("host", "220", "the host name of remote mechine!")
+	fileListPtr := flag.String("files", "test.txt", "the file lists")
+
+	flag.Parse()
+
+	return *directionPtr, *hostPtr, *fileListPtr
+}
+
+/*
+ * split filelist string by commas
+ */
+func GetFileSlice(filelist string) []string {
+	return strings.Split(filelist, ",")
+}
+
+func yesNo(pro string) bool {
+	prompt := promptui.Select{
+		Label: pro,
+		Items: []string{"Yes", "No"},
+	}
+	_, result, err := prompt.Run()
+	if err != nil {
+		log.Fatalf("Prompt failed %v\n", err)
+	}
+	return result == "Yes"
+}
+
+func main() {
+	direction, host, filelist := GetUserInput()
+	files := GetFileSlice(filelist)
+
+	if val, ok := hostinfos[host]; ok {
+		sshInfo, err := GenSshSession(val[0], val[1], val[2])
+		if err != nil {
+			panic(err)
+		}
+
+		if direction == "download" { //下载
+			//在远程目录下，搜索文件列表，将存在的文件路径取到本地
+			session := sshInfo.Session()
+			var buf bytes.Buffer
+			session.Stdout = &buf
+
+			findCmd := ""
+			for _, file := range files {
+				findCmd += "find " + val[3] + " -type f -name " + file + ";"
+			}
+
+			session.Run(findCmd)
+
+			paths := strings.Fields(buf.String())
+			for _, path := range paths {
+				prom := "Copy " + path + " to current directory?[Yes/No]"
+				if yesNo(prom) {
+					cmd := exec.Command("scp", val[0]+"@"+val[1]+":"+path, ".")
+					cmd.Run()
+				}
+			}
+		}
+
+		if direction == "upload" { //上传
+			for _, file := range files {
+				out, err := exec.Command("find", ".", "-type", "f", "-name", file).Output()
+				if err != nil {
+					fmt.Println(err)
+					panic(err)
+				}
+				fmt.Println(out)
+			}
+		}
+	}
+}

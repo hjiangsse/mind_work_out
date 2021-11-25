@@ -1,0 +1,37 @@
+version: "3"
+services:
+  server-node-1:
+    image: mysql/mysql-server:latest
+    restart: always
+    container_name: server-node-1
+    environment:
+      - discovery.type=single-node
+      - MYSQL_ROOT_PASSWORD=jiang186212
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=jiang186212
+    ports:
+      - 3307:3306
+    network_mode: bridge
+    volumes:
+      - mysqldata1: D:\WorkSpace\data
+  sever-node-2:
+    image: mysql/mysql-server:latest
+    restart: always
+    container_name: server-node-2
+    environment:
+      - discovery.type=single-node
+      - MYSQL_ROOT_PASSWORD=jiang186212
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=jiang186212
+    ports:
+      - 3308:3306
+    network_mode: bridge
+    volumes:
+      - mysqldata2: D:\WorkSpace\data
+volumes:
+    mysqldata1:
+      driver: local
+    mysqldata2:
+      driver: local

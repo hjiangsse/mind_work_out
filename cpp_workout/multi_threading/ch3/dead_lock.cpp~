@@ -1,0 +1,10 @@
+#include <iostream>
+
+class BigObject {
+public:
+    BigObject(int val)
+	:bigval(val)
+    {}
+private:
+    int bigval;
+}; 

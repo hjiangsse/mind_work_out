@@ -1,0 +1,9 @@
+(defparameter *my-hash* (make-hash-table))
+
+(defun insert-pair (key value)
+  (setf (gethash key *my-hash*) value))
+
+(defun delete-by-key (key)
+  (multiple-value-bind (_ find) (gethash key *my-hash*)
+		    (if find
+			(remhash key *my-hash*))))

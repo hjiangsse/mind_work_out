@@ -1,0 +1,45 @@
+{
+    "IsAllRun": true,                       
+    "Dates": ["2021-04-01", "2021-07-26"],                 
+    "Models": ["modelWgtsDict0416_8_412"],   
+    "Traders": [                             
+        {
+            "Name": "Trader1T01",
+            "Type": "T0DefaultTrader",
+            "Submodel": "1",
+            "Notifications": "93100000,BEGIN|145000000,CLOSE",
+            "Timeout": "7",
+            "IsLossStopOpen": "true",
+            "ThresHalfLife": "1800",
+            "MaxRatio": "0.1",
+            "MaxDiff": "0.25",
+            "UseDefaultThres": "false",
+            "DefaultThres": "1"
+        }
+    ],
+    "Positions": [                                               
+        {
+            "Name": "ZZ500_50",             
+            "CommisionRate": 0.0002,
+            "AccountId": 1,
+            "Balance": 0, 
+            "SymbolSize": 0,      
+            "Records": [                
+                {
+                    "Symbol": "000925.SZ",
+	                "Count": 1000,    
+	                "BuyCount": 1000,
+	                "BeginTime": 0, 
+	                "EndTime": 0
+                },
+                {
+                    "Symbol": "000926.SZ",
+	                "Count": 1000,  
+	                "BuyCount": 1000,
+	                "BeginTime": 0, 
+	                "EndTime": 0
+                }
+            ]
+        }
+    ]
+}

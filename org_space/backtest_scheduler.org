@@ -1,0 +1,14 @@
+* The tasks of backtest_scheduler
+** DONE grpc to get preday stock prices
+     ip:192.168.2.104
+     port:50023
+** DONE finish backtest result calculation
+     read json file and unmarshal to to a struct variable
+     care about the price!
+     finish the unit test
+** DONE design front end search interfaces and coding it out
+** DONE search test
+     front end simulator
+** DONE moni front end send tasks
+** TODO crontab for task schedule
+** TODO paint the state mechine of tasks

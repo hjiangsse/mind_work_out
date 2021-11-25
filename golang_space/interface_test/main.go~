@@ -1,0 +1,9 @@
+package main
+
+interface eating {
+	func eating();
+}
+
+func main() {
+	
+}

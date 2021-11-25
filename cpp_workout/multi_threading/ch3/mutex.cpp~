@@ -1,0 +1,66 @@
+#include <iostream>
+#include <list>
+#include <mutex>
+#include <string>
+#include <vector>
+#include <thread>
+#include <algorithm>
+
+class ThreadSafeList {
+public:
+    ThreadSafeList() {
+    }
+
+    void add_to_list(std::string);
+    bool list_contains(std::string);
+
+    std::list<std::string>::const_iterator list_begin() const { return some_list.begin(); }
+    std::list<std::string>::const_iterator list_end() const { return some_list.end(); }
+    
+    ThreadSafeList(ThreadSafeList const&) = delete;
+    ThreadSafeList& operator=(ThreadSafeList const&) = delete;
+private:
+    std::list<std::string> some_list;
+    std::mutex some_mutex;
+};
+
+
+void ThreadSafeList::add_to_list(std::string new_value) {
+    std::lock_guard<std::mutex> guard(some_mutex);
+    some_list.push_back(new_value);
+}
+
+bool ThreadSafeList::list_contains(std::string value_to_find) {
+    std::lock_guard<std::mutex> guard(some_mutex);
+    return std::find(some_list.begin(), some_list.end(), value_to_find)
+	!= some_list.end();
+}
+
+void InsertStringoThreadSafeList(ThreadSafeList &lst, std::string str) {
+    lst.add_to_list(str);
+}
+
+void PrintThreadSafeList(const ThreadSafeList &lst) {
+    std::list<std::string>::const_iterator begin = lst.list_begin();
+    std::list<std::string>::const_iterator end = lst.list_end();
+    std::list<std::string>::const_iterator it;
+    for(it = begin; it != end; it++) {
+	std::cout << *it << std::endl;
+    }
+}
+
+int main(int argc, char **argv) {
+    int threadnum = 100;
+    std::vector<std::thread> threads;
+    
+    for(int i = 0; i < threadnum; i++) {
+	std::string str = "thread";
+	str += std::to_string(i);
+	threads.push_back(std::thread(InsertStringoThreadSafeList, str));
+    }
+
+    std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
+    return 0;
+}
+
+
