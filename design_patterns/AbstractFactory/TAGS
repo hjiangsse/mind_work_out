@@ -1,0 +1,40 @@
+
+d:/Hacking/mind_work_out/design_patterns/AbstractFactory\abs_factory.cc,586
+class CharacterCreate {CharacterCreate6,83
+class V1Create: public CharacterCreate {V1Create14,276
+    Residence* ResidenceProduce() {ResidenceProduce15,317
+    Vehicle* VehicleProduce() {VehicleProduce19,379
+    Wife* WifeProduce() {WifeProduce23,438
+class V2Create: public CharacterCreate {V2Create29,534
+    Residence* ResidenceProduce() {ResidenceProduce30,575
+    Vehicle* VehicleProduce() {VehicleProduce34,639
+    Wife* WifeProduce() {WifeProduce38,701
+void TellCharactorMessage(CharacterCreate *pCreator) {TellCharactorMessage43,762
+int main() {main59,1246
+
+d:/Hacking/mind_work_out/design_patterns/AbstractFactory\residence.h,407
+class Residence {Residence6,63
+    virtual ~Residence() {}~Residence8,89
+class Hut: public Residence {Hut15,221
+    std::string Tell_Appearance() const {Tell_Appearance17,259
+class Cottage: public Residence {Cottage25,390
+    std::string Tell_Appearance() const {Tell_Appearance27,432
+class Villa: public Residence {Villa35,559
+    std::string Tell_Appearance() const {Tell_Appearance37,599
+
+d:/Hacking/mind_work_out/design_patterns/AbstractFactory\vehicle.h,212
+class Vehicle {Vehicle6,77
+    virtual ~Vehicle() {}~Vehicle8,101
+class Automobile: public Vehicle {Automobile17,322
+class Bicycle: public Vehicle {Bicycle35,686
+class Tank: public Vehicle {Tank53,1079
+
+d:/Hacking/mind_work_out/design_patterns/AbstractFactory\wife.h,385
+class Wife {Wife3,19
+    virtual ~Wife() {}~Wife5,40
+class JapanWife: public Wife {JapanWife9,118
+    std::string Tell_Greeting() const {Tell_Greeting10,149
+class ChinaWife: public Wife {ChinaWife15,226
+    std::string Tell_Greeting() const {Tell_Greeting16,257
+class RussiaWife: public Wife {RussiaWife21,325
+    std::string Tell_Greeting() const {Tell_Greeting22,357
